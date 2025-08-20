@@ -120,8 +120,32 @@ const UserForm = () => {
     });
   };
 
+  // remove project input
+  const removeProjectField = (index) => {
+    const updatedProjects = [...formData.projects2026];
+    updatedProjects.splice(index, 1); // remove 1 element at index
+    setFormData({ ...formData, projects2026: updatedProjects });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log("Form Data Submitted:", formData);
+    // --- Validation ---
+    const mobileRegex = /^[6-9]\d{9}$/; // Indian 10-digit mobile numbers starting 6–9
+    // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
+    const email = formData.email.trim();
+
+    if (!mobileRegex.test(formData.mobileNumber)) {
+      alert("Please enter a valid 10-digit mobile number starting with 6-9.");
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
 
     const data = new FormData();
     Object.keys(formData).forEach((key) => {
@@ -284,6 +308,7 @@ const UserForm = () => {
             type="text"
             className="form-control"
             name="mobileNumber"
+            maxLength={10}
             value={formData.mobileNumber}
             onChange={handleChange}
             placeholder="Mobile Number"
@@ -293,7 +318,7 @@ const UserForm = () => {
         <div className="col-md-6">
           <label className="form-label fw-bold">Email :</label>
           <input
-            type="email"
+            type="text"
             className="form-control"
             name="email"
             value={formData.email}
@@ -488,17 +513,27 @@ const UserForm = () => {
               {index === formData.projects2026.length - 1 && (
                 <button
                   type="button"
-                  className="btn btn-success"
+                  className="btn btn-success mx-1"
                   onClick={addProjectField}
                 >
                   +
+                </button>
+              )}
+              {/* Show remove button if more than 1 field */}
+              {formData.projects2026.length > 1 && (
+                <button
+                  type="button"
+                  className="btn btn-danger mx-1"
+                  onClick={() => removeProjectField(index)}
+                >
+                  -
                 </button>
               )}
             </div>
           ))}
         </div>
 
-        <div className="col-12">
+        <div className="col-12 ms-3">
           <label className="form-label fw-bold">
             The Structural Spectrum :
           </label>
@@ -615,7 +650,7 @@ const UserForm = () => {
           </div>
         </div>
 
-        <div className="col-12">
+        <div className="col-12 ms-3">
           <label className="form-label fw-bold">Prestige & Panache :</label>
           {/* <div className="d-flex flex-wrap gap-3"> */}
           <div className="row">
@@ -796,7 +831,7 @@ const UserForm = () => {
           </div>
         </div>
 
-        <div className="col-12">
+        <div className="col-12 ms-3">
           <label className="form-label fw-bold">Green Zone :</label>
           {/* <div className="d-flex flex-wrap gap-3"> */}
           <div className="row">
