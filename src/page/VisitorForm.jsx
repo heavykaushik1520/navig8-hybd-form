@@ -1,0 +1,969 @@
+import React, { useState } from "react";
+import logo from "../assets/logo/top.webp";
+import { useNavigate } from "react-router-dom";
+
+const UserForm = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    visitorProfile: "",
+    visitorProfileOther: "",
+    companyName: "",
+    contactPerson: "",
+    designation: "",
+    mobileNumber: "",
+    email: "",
+    website: "",
+    personalInsta: "",
+    firmInsta: "",
+    personalLinkedin: "",
+    firmLinkedin: "",
+    projectLocation: "",
+    expectedStartDate: "",
+    projectSize: "",
+    projects2026: [""],
+    preferredSuppliers: "",
+    challenges: "",
+    vision: "",
+    projectTypes: [],
+    structuralSpectrum: [],
+    prestigePanache: [],
+    greenZone: [],
+    eventDay: "Day1",
+  });
+
+  const [image, setImage] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  const handleProjectsChange = (index, value) => {
+    const updatedProjects = [...formData.projects2026];
+    updatedProjects[index] = value;
+    setFormData({ ...formData, projects2026: updatedProjects });
+  };
+
+  const handleProjectTypesChange = (event) => {
+    const { value, checked } = event.target;
+    setFormData((prevFormData) => {
+      let updatedProjectTypes = [...prevFormData.projectTypes];
+
+      if (checked) {
+        updatedProjectTypes.push(value);
+      } else {
+        updatedProjectTypes = updatedProjectTypes.filter(
+          (type) => type !== value
+        );
+      }
+
+      return { ...prevFormData, projectTypes: updatedProjectTypes };
+    });
+  };
+
+  const handleStructuralSpectrumChange = (event) => {
+    const { value, checked } = event.target;
+    setFormData((prevFormData) => {
+      let updatedStructuralSpectrum = [...prevFormData.structuralSpectrum];
+
+      if (checked) {
+        updatedStructuralSpectrum.push(value);
+      } else {
+        updatedStructuralSpectrum = updatedStructuralSpectrum.filter(
+          (type) => type !== value
+        );
+      }
+      return { ...prevFormData, structuralSpectrum: updatedStructuralSpectrum };
+    });
+  };
+
+  const handlePrestigePanacheChange = (event) => {
+    const { value, checked } = event.target;
+    setFormData((prevFormData) => {
+      let updatedPrestigePanache = [...prevFormData.prestigePanache];
+
+      if (checked) {
+        updatedPrestigePanache.push(value);
+      } else {
+        updatedPrestigePanache = updatedPrestigePanache.filter(
+          (item) => item !== value
+        );
+      }
+
+      return { ...prevFormData, prestigePanache: updatedPrestigePanache };
+    });
+  };
+
+  const handleGreenZoneChange = (event) => {
+    const { value, checked } = event.target;
+    setFormData((prevFormData) => {
+      let updatedGreenZone = [...prevFormData.greenZone];
+
+      if (checked) {
+        updatedGreenZone.push(value);
+      } else {
+        updatedGreenZone = updatedGreenZone.filter((type) => type !== value);
+      }
+
+      return { ...prevFormData, greenZone: updatedGreenZone };
+    });
+  };
+
+  const addProjectField = () => {
+    setFormData({
+      ...formData,
+      projects2026: [...formData.projects2026, ""],
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const data = new FormData();
+    Object.keys(formData).forEach((key) => {
+      if (key === "projects2026") {
+        formData.projects2026.forEach((proj) =>
+          data.append("projects2026", proj)
+        );
+      } else {
+        data.append(key, formData[key]);
+      }
+    });
+
+    if (image) {
+      data.append("image", image);
+    }
+
+    try {
+      const res = await fetch("https://artiststation.co.in/navig8-hydb-api/api/form/submit", {
+        method: "POST",
+        body: data,
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        alert(result.message || "Form submitted successfully!");
+        setTimeout(() => {
+          navigate("/success");
+        }, 1500);
+
+        setFormData({
+          visitorProfile: "",
+          visitorProfileOther: "",
+          companyName: "",
+          contactPerson: "",
+          designation: "",
+          mobileNumber: "",
+          email: "",
+          website: "",
+          personalInsta: "",
+          firmInsta: "",
+          personalLinkedin: "",
+          firmLinkedin: "",
+          projectLocation: "",
+          expectedStartDate: "",
+          projectSize: "",
+          projects2026: [""],
+          preferredSuppliers: "",
+          challenges: "",
+          vision: "",
+          projectTypes: [],
+          structuralSpectrum: [],
+          prestigePanache: [],
+          greenZone: [],
+        });
+      } else {
+        alert(result.error || "Something went wrong!");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error submitting form");
+    }
+  };
+
+  return (
+    <div className="container py-4">
+      <img
+        src={logo}
+        alt="Logo"
+        className="img-fluid mb-3 rounded"
+        style={{ width: "1200px", objectFit: "cover" }}
+      />
+      <h2 className="text-center text-uppercase fw-bold mb-1">
+        Navigate Vision Directory Details
+      </h2>
+      <h2 className="text-center text-uppercase fw-bold mb-4">(DAY 1)</h2>
+
+      <form onSubmit={handleSubmit} className="row g-3">
+        <div className="col-md-6">
+          <label className="form-label fw-bold label-text">
+            Visitor Profile :
+          </label>
+          <select
+            className="form-select "
+            name="visitorProfile"
+            value={formData.visitorProfile}
+            onChange={handleChange}
+          >
+            <option value="">Select...</option>
+            <option>Architects</option>
+            <option>Interior Designers</option>
+            <option>Government Officials</option>
+            <option>International Buyers</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        {formData.visitorProfile === "Other" && (
+          <div className="col-md-6">
+            <label className="form-label fw-bold">Other... :</label>
+            <input
+              type="text"
+              className="form-control"
+              name="visitorProfileOther"
+              value={formData.visitorProfileOther}
+              onChange={handleChange}
+            />
+          </div>
+        )}
+
+        <div className="col-md-6">
+          <label className="form-label fw-bold">Upload Image :</label>
+          <input
+            type="file"
+            className="form-control"
+            accept="image/*"
+            onChange={handleFileChange}
+          />
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label fw-bold">Company Name :</label>
+          <input
+            type="text"
+            className="form-control"
+            name="companyName"
+            value={formData.companyName}
+            onChange={handleChange}
+            placeholder="Company Name"
+          />
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label fw-bold">Contact Person :</label>
+          <input
+            type="text"
+            className="form-control"
+            name="contactPerson"
+            value={formData.contactPerson}
+            onChange={handleChange}
+            placeholder="Contact Person"
+          />
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label fw-bold">Designation :</label>
+          <input
+            type="text"
+            className="form-control"
+            name="designation"
+            value={formData.designation}
+            onChange={handleChange}
+            placeholder="Designation"
+          />
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label fw-bold">Mobile Number :</label>
+          <input
+            type="text"
+            className="form-control"
+            name="mobileNumber"
+            value={formData.mobileNumber}
+            onChange={handleChange}
+            placeholder="Mobile Number"
+          />
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label fw-bold">Email :</label>
+          <input
+            type="email"
+            className="form-control"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+          />
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label fw-bold">Website :</label>
+          <input
+            type="text"
+            className="form-control"
+            name="website"
+            value={formData.website}
+            onChange={handleChange}
+            placeholder="Copy Paste Link Here"
+          />
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label fw-bold">Personal Instagram :</label>
+          <input
+            type="text"
+            className="form-control"
+            name="personalInsta"
+            value={formData.personalInsta}
+            onChange={handleChange}
+            placeholder="Copy Paste Link Here"
+          />
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label fw-bold">Firm Instagram :</label>
+          <input
+            type="text"
+            className="form-control"
+            name="firmInsta"
+            value={formData.firmInsta}
+            onChange={handleChange}
+            placeholder="Copy Paste Link Here"
+          />
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label fw-bold">Personal LinkedIn :</label>
+          <input
+            type="text"
+            className="form-control"
+            name="personalLinkedin"
+            value={formData.personalLinkedin}
+            onChange={handleChange}
+            placeholder="Copy Paste Link Here"
+          />
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label fw-bold">Firm LinkedIn :</label>
+          <input
+            type="text"
+            className="form-control"
+            name="firmLinkedin"
+            value={formData.firmLinkedin}
+            onChange={handleChange}
+            placeholder="Copy Paste Link Here"
+          />
+        </div>
+
+        <div className="col-12">
+          <label className="form-label fw-bold">
+            Types of Projects You Work On :
+          </label>
+          <div className="d-flex flex-wrap gap-3">
+            {[
+              "Commercial ",
+              "Hospitality",
+              "Industrial",
+              "Institutional",
+              "Residential",
+              "Experiential spaces",
+            ].map((type) => (
+              <div key={type} className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value={type}
+                  id={`project-type-${type}`}
+                  name="projectTypes"
+                  checked={formData.projectTypes.includes(type)}
+                  onChange={handleProjectTypesChange}
+                />
+                <label
+                  className="form-check-label"
+                  htmlFor={`project-type-${type}`}
+                >
+                  {type}
+                </label>
+              </div>
+            ))}
+
+            <div className="form-check">
+              <label
+                className="form-check-label fw-bold"
+                htmlFor="project-type-other"
+              >
+                Other...
+              </label>
+              <input
+                type="text"
+                className="form-control d-inline w-auto"
+                value={
+                  formData.projectTypes.find(
+                    (t) =>
+                      ![
+                        "Commercial ",
+                        "Hospitality",
+                        "Industrial",
+                        "Institutional",
+                        "Residential",
+                        "Experiential spaces",
+                      ].includes(t)
+                  ) || ""
+                }
+                onChange={(e) => {
+                  const updatedOthers = formData.projectTypes.filter((t) =>
+                    [
+                      "Commercial ",
+                      "Hospitality",
+                      "Industrial",
+                      "Institutional",
+                      "Residential",
+                      "Experiential spaces",
+                    ].includes(t)
+                  );
+                  if (e.target.value) {
+                    updatedOthers.push(e.target.value);
+                  }
+                  setFormData({ ...formData, projectTypes: updatedOthers });
+                }}
+                placeholder="Specify"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label fw-bold">Project Location :</label>
+          <input
+            type="text"
+            className="form-control"
+            name="projectLocation"
+            value={formData.projectLocation}
+            onChange={handleChange}
+            placeholder="Project Location"
+          />
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label fw-bold">Expected Start Date :</label>
+          <input
+            type="date"
+            className="form-control"
+            name="expectedStartDate"
+            value={formData.expectedStartDate}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label fw-bold">Project Size :</label>
+          <input
+            type="text"
+            className="form-control"
+            name="projectSize"
+            value={formData.projectSize}
+            onChange={handleChange}
+            placeholder="Project Size"
+          />
+        </div>
+
+        <div className="col-12">
+          <label className="form-label fw-bold">Projects 2026 :</label>
+          {formData.projects2026.map((project, index) => (
+            <div key={index} className="d-flex mb-2">
+              <input
+                type="text"
+                className="form-control me-2"
+                value={project}
+                onChange={(e) => handleProjectsChange(index, e.target.value)}
+                placeholder="Projects 2026"
+              />
+              {index === formData.projects2026.length - 1 && (
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={addProjectField}
+                >
+                  +
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="col-12">
+          <label className="form-label fw-bold">
+            The Structural Spectrum :
+          </label>
+          {/* <div className="d-flex flex-wrap gap-3"> */}
+          <div className="row">
+            {[
+              "Cement",
+              "Ready mix concrete",
+              "Bricks and blocks",
+              "Structural steel",
+              "Tmt bars",
+              "Roofing solutions",
+              "Waterproofing chemicals and adhesives",
+              "Paints and coatings",
+              "Elevator",
+              "Facade",
+              "Form work",
+              "Peb structure",
+              "Glass facade",
+              "Plumbing and pipes",
+            ].map((spectrum) => (
+              // <div key={spectrum} className="form-check">
+              <div key={spectrum} className="col-md-4 col-sm-6 form-check mb-2">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value={spectrum}
+                  id={`spectrum-${spectrum.replace(/\s/g, "-")}`}
+                  name="structuralSpectrum"
+                  checked={formData.structuralSpectrum.includes(spectrum)}
+                  onChange={handleStructuralSpectrumChange}
+                />
+                <label
+                  className="form-check-label"
+                  htmlFor={`spectrum-${spectrum.replace(/\s/g, "-")}`}
+                >
+                  {spectrum}
+                </label>
+              </div>
+            ))}
+
+            {/* ✅ Other Option */}
+            {/* <div className="form-check">
+              <label
+                className="form-check-label fw-bold"
+                htmlFor="spectrum-other"
+              > */}
+            <div className="col-md-4 col-sm-6 d-flex align-items-center mb-2">
+              <label
+                className="form-check-label fw-bold me-2"
+                htmlFor="spectrum-other"
+              >
+                Other...
+              </label>
+              <input
+                type="text"
+                // className="form-control d-inline w-auto"
+                className="form-control"
+                value={
+                  formData.structuralSpectrum.find(
+                    (s) =>
+                      ![
+                        "Cement",
+                        "Ready mix concrete",
+                        "Bricks and blocks",
+                        "Structural steel",
+                        "Tmt bars",
+                        "Roofing solutions",
+                        "Waterproofing chemicals and adhesives",
+                        "Paints and coatings",
+                        "Elevator",
+                        "Facade",
+                        "Form work",
+                        "Peb structure",
+                        "Glass facade",
+                        "Plumbing and pipes",
+                      ].includes(s)
+                  ) || ""
+                }
+                onChange={(e) => {
+                  const predefined = [
+                    "Cement",
+                    "Ready mix concrete",
+                    "Bricks and blocks",
+                    "Structural steel",
+                    "Tmt bars",
+                    "Roofing solutions",
+                    "Waterproofing chemicals and adhesives",
+                    "Paints and coatings",
+                    "Elevator",
+                    "Facade",
+                    "Form work",
+                    "Peb structure",
+                    "Glass facade",
+                    "Plumbing and pipes",
+                  ];
+
+                  const updatedOthers = formData.structuralSpectrum.filter(
+                    (s) => predefined.includes(s)
+                  );
+
+                  if (e.target.value) {
+                    updatedOthers.push(e.target.value);
+                  }
+
+                  setFormData({
+                    ...formData,
+                    structuralSpectrum: updatedOthers,
+                  });
+                }}
+                placeholder="Specify"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="col-12">
+          <label className="form-label fw-bold">Prestige & Panache :</label>
+          {/* <div className="d-flex flex-wrap gap-3"> */}
+          <div className="row">
+            {[
+              "Marble",
+              "Tiles",
+              "Quartz",
+              "Terazzu",
+              "Wooden flooring",
+              "Laminate",
+              "Rugs and carpet",
+              "Artefacts",
+              "Sculptures",
+              "Decorative cladding",
+              "Stone cladding",
+              "Fencing",
+              "Garden and outdoor furniture",
+              "Kitchen appliances",
+              "Luxury furniture",
+              "Wooden furniture",
+              "Luxury lighting",
+              "Mattress",
+              "Office furniture",
+              "Swimming pools",
+              "Switched and sockets",
+              "Wall paper",
+              "Wooden doors",
+              "Upvc doors and windows",
+              "Aluminum doors and windows",
+              "Curtain wall systems",
+              "ACP panels",
+              "Shading and louvers",
+              "Railing and balustrade",
+              "False ceiling",
+              "Modular kitchen and wardrobe",
+              "Hardware and fittings",
+              "Wellness",
+              "Lighting",
+              "Drones",
+              "Pergolas and gazebos",
+            ].map((item) => (
+              // <div key={item} className="form-check">
+              <div key={item} className="col-md-4 col-sm-6 form-check mb-2">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value={item}
+                  id={`prestige-${item.replace(/\s/g, "-")}`}
+                  name="prestigePanache"
+                  checked={formData.prestigePanache.includes(item)}
+                  onChange={handlePrestigePanacheChange}
+                />
+                <label
+                  className="form-check-label"
+                  htmlFor={`prestige-${item.replace(/\s/g, "-")}`}
+                >
+                  {item}
+                </label>
+              </div>
+            ))}
+
+            {/* ✅ Other Option */}
+            {/* <div className="form-check">
+              <label
+                className="form-check-label fw-bold"
+                htmlFor="prestige-other"
+              > */}
+            <div className="col-md-4 col-sm-6 d-flex align-items-center mb-2">
+              <label
+                className="form-check-label fw-bold me-2"
+                htmlFor="prestige-other"
+              >
+                Other...
+              </label>
+              <input
+                type="text"
+                // className="form-control d-inline w-auto"
+                className="form-control"
+                value={
+                  formData.prestigePanache.find(
+                    (s) =>
+                      ![
+                        "Marble",
+                        "Tiles",
+                        "Quartz",
+                        "Terazzu",
+                        "Wooden flooring",
+                        "Laminate",
+                        "Rugs and carpet",
+                        "Artefacts",
+                        "Sculptures",
+                        "Decorative cladding",
+                        "Stone cladding",
+                        "Fencing",
+                        "Garden and outdoor furniture",
+                        "Kitchen appliances",
+                        "Luxury furniture",
+                        "Wooden furniture",
+                        "Luxury lighting",
+                        "Mattress",
+                        "Office furniture",
+                        "Swimming pools",
+                        "Switched and sockets",
+                        "Wall paper",
+                        "Wooden doors",
+                        "Upvc doors and windows",
+                        "Aluminum doors and windows",
+                        "Curtain wall systems",
+                        "ACP panels",
+                        "Shading and louvers",
+                        "Railing and balustrade",
+                        "False ceiling",
+                        "Modular kitchen and wardrobe",
+                        "Hardware and fittings",
+                        "Wellness",
+                        "Lighting",
+                        "Drones",
+                        "Pergolas and gazebos",
+                      ].includes(s)
+                  ) || ""
+                }
+                onChange={(e) => {
+                  const predefined = [
+                    "Marble",
+                    "Tiles",
+                    "Quartz",
+                    "Terazzu",
+                    "Wooden flooring",
+                    "Laminate",
+                    "Rugs and carpet",
+                    "Artefacts",
+                    "Sculptures",
+                    "Decorative cladding",
+                    "Stone cladding",
+                    "Fencing",
+                    "Garden and outdoor furniture",
+                    "Kitchen appliances",
+                    "Luxury furniture",
+                    "Wooden furniture",
+                    "Luxury lighting",
+                    "Mattress",
+                    "Office furniture",
+                    "Swimming pools",
+                    "Switched and sockets",
+                    "Wall paper",
+                    "Wooden doors",
+                    "Upvc doors and windows",
+                    "Aluminum doors and windows",
+                    "Curtain wall systems",
+                    "ACP panels",
+                    "Shading and louvers",
+                    "Railing and balustrade",
+                    "False ceiling",
+                    "Modular kitchen and wardrobe",
+                    "Hardware and fittings",
+                    "Wellness",
+                    "Lighting",
+                    "Drones",
+                    "Pergolas and gazebos",
+                  ];
+
+                  const updatedOthers = formData.prestigePanache.filter((s) =>
+                    predefined.includes(s)
+                  );
+
+                  if (e.target.value) {
+                    updatedOthers.push(e.target.value);
+                  }
+
+                  setFormData({
+                    ...formData,
+                    prestigePanache: updatedOthers,
+                  });
+                }}
+                placeholder="Specify"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="col-12">
+          <label className="form-label fw-bold">Green Zone :</label>
+          {/* <div className="d-flex flex-wrap gap-3"> */}
+          <div className="row">
+            {[
+              "HVAC",
+              "Electrical’s wires",
+              "Smart automation",
+              "Solar energy",
+              "Fire and safety",
+              "Water treatment",
+              "Lanscape",
+              "Acostic solutions",
+              "Insulation",
+              "Rain Water harvesting",
+              "Waste management",
+              "3 D print",
+              "Construction",
+            ].map((zone) => (
+              // <div key={zone} className="form-check">
+              <div key={zone} className="col-md-4 col-sm-6 form-check mb-2">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value={zone}
+                  id={`zone-${zone.replace(/\s/g, "-")}`}
+                  name="greenZone"
+                  checked={formData.greenZone.includes(zone)}
+                  onChange={handleGreenZoneChange}
+                />
+                <label
+                  className="form-check-label"
+                  htmlFor={`zone-${zone.replace(/\s/g, "-")}`}
+                >
+                  {zone}
+                </label>
+              </div>
+            ))}
+
+            {/* ✅ Other Option */}
+            {/* <div className="form-check">
+              <label className="form-check-label fw-bold" htmlFor="zone-other"> */}
+            <div className="col-md-4 col-sm-6 d-flex align-items-center mb-2">
+              <label
+                className="form-check-label fw-bold me-2"
+                htmlFor="zone-other"
+              >
+                Other...
+              </label>
+              <input
+                type="text"
+                // className="form-control d-inline w-auto"
+                className="form-control"
+                value={
+                  formData.greenZone.find(
+                    (s) =>
+                      ![
+                        "HVAC",
+                        "Electrical’s wires",
+                        "Smart automation",
+                        "Solar energy",
+                        "Fire and safety",
+                        "Water treatment",
+                        "Lanscape",
+                        "Acostic solutions",
+                        "Insulation",
+                        "Rain Water harvesting",
+                        "Waste management",
+                        "3 D print",
+                        "Construction",
+                      ].includes(s)
+                  ) || ""
+                }
+                onChange={(e) => {
+                  const predefined = [
+                    "HVAC",
+                    "Electrical’s wires",
+                    "Smart automation",
+                    "Solar energy",
+                    "Fire and safety",
+                    "Water treatment",
+                    "Lanscape",
+                    "Acostic solutions",
+                    "Insulation",
+                    "Rain Water harvesting",
+                    "Waste management",
+                    "3 D print",
+                    "Construction",
+                  ];
+
+                  const updatedOthers = formData.greenZone.filter((s) =>
+                    predefined.includes(s)
+                  );
+
+                  if (e.target.value) {
+                    updatedOthers.push(e.target.value);
+                  }
+
+                  setFormData({
+                    ...formData,
+                    greenZone: updatedOthers,
+                  });
+                }}
+                placeholder="Specify"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="col-12 ">
+          <label className="form-label fw-bold">
+            Preferred Suppliers/Brands (if/any) :
+          </label>
+          <textarea
+            className="form-control"
+            name="preferredSuppliers"
+            value={formData.preferredSuppliers}
+            onChange={handleChange}
+            placeholder="Preferred Suppliers/Brands"
+          />
+        </div>
+
+        <div className="col-12">
+          <label className="form-label fw-bold">
+            Specific Challenges or Needs in Your Projects :
+          </label>
+          <textarea
+            className="form-control"
+            name="challenges"
+            value={formData.challenges}
+            onChange={handleChange}
+            placeholder="Specific Challenges or Needs in Your Projects"
+          />
+        </div>
+
+        <div className="col-12">
+          <label className="form-label fw-bold">
+            A Vision Towards Industry :
+          </label>
+          <textarea
+            className="form-control"
+            name="vision"
+            value={formData.vision}
+            onChange={handleChange}
+            placeholder="A Vision Towards Industry"
+          />
+        </div>
+
+        <div className="col-12 text-center">
+          <button type="submit" className="btn btn-primary px-4 py-2">
+            Submit
+          </button>
+        </div>
+      </form>
+
+      <div className="mt-2">
+        <p className="text-start">
+          Kindly share the completed form with us. This will help us coordinate
+          with exhibitors to ensure their offerings align with your
+          requirements.
+        </p>
+        <p className="text-start">
+          We look forward to your participation and contribution to NAVIG8.
+          Together, let’s drive innovation in architecture and construction.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default UserForm;
