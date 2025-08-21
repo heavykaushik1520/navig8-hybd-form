@@ -11,6 +11,7 @@ const UserForm = () => {
     contactPerson: "",
     designation: "",
     mobileNumber: "",
+    address:"",
     email: "",
     website: "",
     personalInsta: "",
@@ -162,6 +163,8 @@ const UserForm = () => {
       data.append("image", image);
     }
 
+    // https://artiststation.co.in/navig8-hydb-api/api/form/submit
+    //http://localhost:5000/api/form/submit
     try {
       const res = await fetch("https://artiststation.co.in/navig8-hydb-api/api/form/submit", {
         method: "POST",
@@ -183,6 +186,7 @@ const UserForm = () => {
           contactPerson: "",
           designation: "",
           mobileNumber: "",
+          address:"",
           email: "",
           website: "",
           personalInsta: "",
@@ -266,6 +270,8 @@ const UserForm = () => {
           />
         </div>
 
+        <h4 className="fw-bold"> COMPANY DETAILS  </h4> 
+
         <div className="col-md-6">
           <label className="form-label fw-bold">Company Name :</label>
           <input
@@ -299,6 +305,7 @@ const UserForm = () => {
             value={formData.designation}
             onChange={handleChange}
             placeholder="Designation"
+            required
           />
         </div>
 
@@ -312,6 +319,20 @@ const UserForm = () => {
             value={formData.mobileNumber}
             onChange={handleChange}
             placeholder="Mobile Number"
+            required
+          />
+        </div>
+
+        <div className="col-12">
+          <label className="form-label fw-bold">
+            Address :
+          </label>
+          <textarea
+            className="form-control"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            placeholder="Address"
           />
         </div>
 
@@ -324,6 +345,7 @@ const UserForm = () => {
             value={formData.email}
             onChange={handleChange}
             placeholder="Email"
+            required
           />
         </div>
 
@@ -352,7 +374,7 @@ const UserForm = () => {
         </div>
 
         <div className="col-md-6">
-          <label className="form-label fw-bold">Firm Instagram :</label>
+          <label className="form-label fw-bold">Company Instagram :</label>
           <input
             type="text"
             className="form-control"
@@ -376,7 +398,7 @@ const UserForm = () => {
         </div>
 
         <div className="col-md-6">
-          <label className="form-label fw-bold">Firm LinkedIn :</label>
+          <label className="form-label fw-bold">Company LinkedIn :</label>
           <input
             type="text"
             className="form-control"
@@ -533,6 +555,7 @@ const UserForm = () => {
           ))}
         </div>
 
+       <h4 className="fw-bold"> PRODUCT CATEGORIES OF INTEREST </h4> 
         <div className="col-12 ms-3">
           <label className="form-label fw-bold">
             The Structural Spectrum :
@@ -544,7 +567,7 @@ const UserForm = () => {
               "Ready mix concrete",
               "Bricks and blocks",
               "Structural steel",
-              "Tmt bars",
+              "TMT capital",
               "Roofing solutions",
               "Waterproofing chemicals and adhesives",
               "Paints and coatings",
@@ -600,7 +623,7 @@ const UserForm = () => {
                         "Ready mix concrete",
                         "Bricks and blocks",
                         "Structural steel",
-                        "Tmt bars",
+                        "TMT capital",
                         "Roofing solutions",
                         "Waterproofing chemicals and adhesives",
                         "Paints and coatings",
@@ -619,7 +642,7 @@ const UserForm = () => {
                     "Ready mix concrete",
                     "Bricks and blocks",
                     "Structural steel",
-                    "Tmt bars",
+                    "TMT capital",
                     "Roofing solutions",
                     "Waterproofing chemicals and adhesives",
                     "Paints and coatings",
@@ -658,7 +681,7 @@ const UserForm = () => {
               "Marble",
               "Tiles",
               "Quartz",
-              "Terazzu",
+              "Terrazzo",
               "Wooden flooring",
               "Laminate",
               "Rugs and carpet",
@@ -676,7 +699,7 @@ const UserForm = () => {
               "Office furniture",
               "Swimming pools",
               "Switched and sockets",
-              "Wall paper",
+              "Wallpaper",
               "Wooden doors",
               "Upvc doors and windows",
               "Aluminum doors and windows",
@@ -736,7 +759,7 @@ const UserForm = () => {
                         "Marble",
                         "Tiles",
                         "Quartz",
-                        "Terazzu",
+                        "Terrazzo",
                         "Wooden flooring",
                         "Laminate",
                         "Rugs and carpet",
@@ -754,7 +777,7 @@ const UserForm = () => {
                         "Office furniture",
                         "Swimming pools",
                         "Switched and sockets",
-                        "Wall paper",
+                        "Wallpaper",
                         "Wooden doors",
                         "Upvc doors and windows",
                         "Aluminum doors and windows",
@@ -777,7 +800,7 @@ const UserForm = () => {
                     "Marble",
                     "Tiles",
                     "Quartz",
-                    "Terazzu",
+                    "Terrazzo",
                     "Wooden flooring",
                     "Laminate",
                     "Rugs and carpet",
@@ -795,7 +818,7 @@ const UserForm = () => {
                     "Office furniture",
                     "Swimming pools",
                     "Switched and sockets",
-                    "Wall paper",
+                    "Wallpaper",
                     "Wooden doors",
                     "Upvc doors and windows",
                     "Aluminum doors and windows",
@@ -832,7 +855,7 @@ const UserForm = () => {
         </div>
 
         <div className="col-12 ms-3">
-          <label className="form-label fw-bold">Green Zone :</label>
+          <label className="form-label fw-bold">Innovation Sphere :</label>
           {/* <div className="d-flex flex-wrap gap-3"> */}
           <div className="row">
             {[
@@ -842,7 +865,7 @@ const UserForm = () => {
               "Solar energy",
               "Fire and safety",
               "Water treatment",
-              "Lanscape",
+              "Landscape",
               "Acostic solutions",
               "Insulation",
               "Rain Water harvesting",
@@ -894,7 +917,7 @@ const UserForm = () => {
                         "Solar energy",
                         "Fire and safety",
                         "Water treatment",
-                        "Lanscape",
+                        "Landscape",
                         "Acostic solutions",
                         "Insulation",
                         "Rain Water harvesting",
@@ -912,7 +935,7 @@ const UserForm = () => {
                     "Solar energy",
                     "Fire and safety",
                     "Water treatment",
-                    "Lanscape",
+                    "Landscape",
                     "Acostic solutions",
                     "Insulation",
                     "Rain Water harvesting",
