@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../assets/logo/top.webp";
+import logo from "../assets/logo/logo3.png";
 import { useNavigate } from "react-router-dom";
 
 const UserForm = () => {
@@ -11,7 +11,7 @@ const UserForm = () => {
     contactPerson: "",
     designation: "",
     mobileNumber: "",
-    address:"",
+    address: "",
     email: "",
     website: "",
     personalInsta: "",
@@ -166,10 +166,13 @@ const UserForm = () => {
     // https://artiststation.co.in/navig8-hydb-api/api/form/submit
     //http://localhost:5000/api/form/submit
     try {
-      const res = await fetch("https://artiststation.co.in/navig8-hydb-api/api/form/submit", {
-        method: "POST",
-        body: data,
-      });
+      const res = await fetch(
+        "https://artiststation.co.in/navig8-hydb-api/api/form/submit",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
 
       const result = await res.json();
 
@@ -186,7 +189,7 @@ const UserForm = () => {
           contactPerson: "",
           designation: "",
           mobileNumber: "",
-          address:"",
+          address: "",
           email: "",
           website: "",
           personalInsta: "",
@@ -219,13 +222,33 @@ const UserForm = () => {
       <img
         src={logo}
         alt="Logo"
-        className="img-fluid mb-3 rounded"
-        style={{ width: "1200px", objectFit: "cover" }}
+        className="img-fluid mb-3 rounded top-logo"
+        // style={{ width: "100%", objectFit: "cover" }}
       />
-      <h2 className="text-center text-uppercase fw-bold mb-1">
-        Navigate Vision Directory Details
+      <h2 className="text-center text-uppercase fw-bold mb-1 form-heading-color">
+        Navig8 Vision Directory Details
       </h2>
-      <h2 className="text-center text-uppercase fw-bold mb-4">(DAY 1)</h2>
+      <h2 className="text-center text-uppercase fw-bold mb-4 form-heading-color">(DAY 1)</h2>
+
+      <h5 className="text-center fw-bold form-heading-color">
+        Date: September, 2025 | Venue: Hyderabad
+      </h5>
+
+      <h6 className="imp-inst-heading">Important Instructions Before You Begin :</h6>
+      <ul>
+        <li>Please enter the details of the person attending the show.</li>
+        <li><strong>Preferred attendee</strong> - Principal Architect/ Principal Interior Designer/ Product Specifier or Specifier</li>
+        <li>
+          The directory will be shared with participating brands prior to the
+          show, allowing them to better understand your work and reach out
+          meaningfully.
+        </li>
+        <li>
+          Directory will be shared with key government bodies including Urban
+          Development, Airports, Railways, Metro and other relevant
+          infrastructure authorities.
+        </li>
+      </ul>
 
       <form onSubmit={handleSubmit} className="row g-3">
         <div className="col-md-6">
@@ -239,8 +262,8 @@ const UserForm = () => {
             onChange={handleChange}
           >
             <option value="">Select...</option>
-            <option>Architects</option>
-            <option>Interior Designers</option>
+            <option>Principal Architects</option>
+            <option>Principal Interior Designers</option>
             <option>Government Officials</option>
             <option>International Buyers</option>
             <option>Other</option>
@@ -261,7 +284,9 @@ const UserForm = () => {
         )}
 
         <div className="col-md-6">
-          <label className="form-label fw-bold">Upload Image :</label>
+          <label className="form-label fw-bold">
+            Upload Visitor's Picture :
+          </label>
           <input
             type="file"
             className="form-control"
@@ -270,7 +295,7 @@ const UserForm = () => {
           />
         </div>
 
-        <h4 className="fw-bold"> COMPANY DETAILS  </h4> 
+        <h4 className="fw-bold form-heading-color"> COMPANY DETAILS </h4>
 
         <div className="col-md-6">
           <label className="form-label fw-bold">Company Name :</label>
@@ -285,7 +310,7 @@ const UserForm = () => {
         </div>
 
         <div className="col-md-6">
-          <label className="form-label fw-bold">Contact Person :</label>
+          <label className="form-label fw-bold">Contact Person<span className="text-danger">*</span> :</label>
           <input
             type="text"
             className="form-control"
@@ -293,11 +318,12 @@ const UserForm = () => {
             value={formData.contactPerson}
             onChange={handleChange}
             placeholder="Contact Person"
+            required
           />
         </div>
 
         <div className="col-md-6">
-          <label className="form-label fw-bold">Designation :</label>
+          <label className="form-label fw-bold">Designation<span className="text-danger">*</span> :</label>
           <input
             type="text"
             className="form-control"
@@ -310,7 +336,7 @@ const UserForm = () => {
         </div>
 
         <div className="col-md-6">
-          <label className="form-label fw-bold">Mobile Number :</label>
+          <label className="form-label fw-bold">Mobile Number<span className="text-danger">*</span> :</label>
           <input
             type="text"
             className="form-control"
@@ -324,9 +350,7 @@ const UserForm = () => {
         </div>
 
         <div className="col-12">
-          <label className="form-label fw-bold">
-            Address :
-          </label>
+          <label className="form-label fw-bold">Address :</label>
           <textarea
             className="form-control"
             name="address"
@@ -337,7 +361,7 @@ const UserForm = () => {
         </div>
 
         <div className="col-md-6">
-          <label className="form-label fw-bold">Email :</label>
+          <label className="form-label fw-bold">Email<span className="text-danger">*</span> :</label>
           <input
             type="text"
             className="form-control"
@@ -420,7 +444,7 @@ const UserForm = () => {
               "Industrial",
               "Institutional",
               "Residential",
-              "Experiential spaces",
+              "Experiential Spaces",
             ].map((type) => (
               <div key={type} className="form-check">
                 <input
@@ -460,7 +484,7 @@ const UserForm = () => {
                         "Industrial",
                         "Institutional",
                         "Residential",
-                        "Experiential spaces",
+                        "Experiential Spaces",
                       ].includes(t)
                   ) || ""
                 }
@@ -472,7 +496,7 @@ const UserForm = () => {
                       "Industrial",
                       "Institutional",
                       "Residential",
-                      "Experiential spaces",
+                      "Experiential Spaces",
                     ].includes(t)
                   );
                   if (e.target.value) {
@@ -555,7 +579,7 @@ const UserForm = () => {
           ))}
         </div>
 
-       <h4 className="fw-bold"> PRODUCT CATEGORIES OF INTEREST </h4> 
+        <h4 className="fw-bold form-heading-color"> PRODUCT CATEGORIES OF INTEREST </h4>
         <div className="col-12 ms-3">
           <label className="form-label fw-bold">
             The Structural Spectrum :
@@ -564,19 +588,19 @@ const UserForm = () => {
           <div className="row">
             {[
               "Cement",
-              "Ready mix concrete",
-              "Bricks and blocks",
-              "Structural steel",
-              "TMT capital",
-              "Roofing solutions",
-              "Waterproofing chemicals and adhesives",
-              "Paints and coatings",
+              "Ready Mix Concrete",
+              "Bricks and Blocks",
+              "Structural Steel",
+              "TMT Bars",
+              "Roofing Solutions",
+              "Waterproofing Chemicals and Adhesives",
+              "Paints and Coatings",
               "Elevator",
               "Facade",
-              "Form work",
-              "Peb structure",
-              "Glass facade",
-              "Plumbing and pipes",
+              "Formwork",
+              "PEB Structure",
+              "Glass Facade",
+              "Plumbing and Pipes",
             ].map((spectrum) => (
               // <div key={spectrum} className="form-check">
               <div key={spectrum} className="col-md-4 col-sm-6 form-check mb-2">
@@ -620,38 +644,38 @@ const UserForm = () => {
                     (s) =>
                       ![
                         "Cement",
-                        "Ready mix concrete",
-                        "Bricks and blocks",
-                        "Structural steel",
-                        "TMT capital",
-                        "Roofing solutions",
-                        "Waterproofing chemicals and adhesives",
-                        "Paints and coatings",
+                        "Ready Mix Concrete",
+                        "Bricks and Blocks",
+                        "Structural Steel",
+                        "TMT Bars",
+                        "Roofing Solutions",
+                        "Waterproofing Chemicals and Adhesives",
+                        "Paints and Coatings",
                         "Elevator",
                         "Facade",
-                        "Form work",
-                        "Peb structure",
-                        "Glass facade",
-                        "Plumbing and pipes",
+                        "Formwork",
+                        "PEB Structure",
+                        "Glass Facade",
+                        "Plumbing and Pipes",
                       ].includes(s)
                   ) || ""
                 }
                 onChange={(e) => {
                   const predefined = [
                     "Cement",
-                    "Ready mix concrete",
-                    "Bricks and blocks",
-                    "Structural steel",
-                    "TMT capital",
-                    "Roofing solutions",
-                    "Waterproofing chemicals and adhesives",
-                    "Paints and coatings",
+                    "Ready Mix Concrete",
+                    "Bricks and Blocks",
+                    "Structural Steel",
+                    "TMT Bars",
+                    "Roofing Solutions",
+                    "Waterproofing Chemicals and Adhesives",
+                    "Paints and Coatings",
                     "Elevator",
                     "Facade",
-                    "Form work",
-                    "Peb structure",
-                    "Glass facade",
-                    "Plumbing and pipes",
+                    "Formwork",
+                    "PEB Structure",
+                    "Glass Facade",
+                    "Plumbing and Pipes",
                   ];
 
                   const updatedOthers = formData.structuralSpectrum.filter(
@@ -682,38 +706,38 @@ const UserForm = () => {
               "Tiles",
               "Quartz",
               "Terrazzo",
-              "Wooden flooring",
+              "Wooden Flooring",
               "Laminate",
-              "Rugs and carpet",
+              "Rugs and Carpet",
               "Artefacts",
               "Sculptures",
-              "Decorative cladding",
-              "Stone cladding",
+              "Decorative Cladding",
+              "Stone Cladding",
               "Fencing",
-              "Garden and outdoor furniture",
-              "Kitchen appliances",
-              "Luxury furniture",
-              "Wooden furniture",
-              "Luxury lighting",
+              "Garden and Outdoor Furniture",
+              "Kitchen Appliances",
+              "Luxury Furniture",
+              "Wooden Furniture",
+              "Luxury Lighting",
               "Mattress",
-              "Office furniture",
-              "Swimming pools",
-              "Switched and sockets",
+              "Office Furniture",
+              "Swimming Pools",
+              "Switches and Sockets",
               "Wallpaper",
-              "Wooden doors",
-              "Upvc doors and windows",
-              "Aluminum doors and windows",
-              "Curtain wall systems",
-              "ACP panels",
-              "Shading and louvers",
-              "Railing and balustrade",
-              "False ceiling",
-              "Modular kitchen and wardrobe",
-              "Hardware and fittings",
+              "Wooden Doors",
+              "UPVC Doors and Windows",
+              "Aluminum Doors and Windows",
+              "Curtain Wall Systems",
+              "ACP Panels",
+              "Shading and Louvers",
+              "Railing and Balustrade",
+              "False Ceiling",
+              "Modular Kitchen and Wardrobe",
+              "Hardware and Fittings",
               "Wellness",
               "Lighting",
               "Drones",
-              "Pergolas and gazebos",
+              "Pergolas and Gazebos",
             ].map((item) => (
               // <div key={item} className="form-check">
               <div key={item} className="col-md-4 col-sm-6 form-check mb-2">
@@ -760,38 +784,38 @@ const UserForm = () => {
                         "Tiles",
                         "Quartz",
                         "Terrazzo",
-                        "Wooden flooring",
+                        "Wooden Flooring",
                         "Laminate",
-                        "Rugs and carpet",
+                        "Rugs and Carpet",
                         "Artefacts",
                         "Sculptures",
-                        "Decorative cladding",
-                        "Stone cladding",
+                        "Decorative Cladding",
+                        "Stone Cladding",
                         "Fencing",
-                        "Garden and outdoor furniture",
-                        "Kitchen appliances",
-                        "Luxury furniture",
-                        "Wooden furniture",
-                        "Luxury lighting",
+                        "Garden and Outdoor Furniture",
+                        "Kitchen Appliances",
+                        "Luxury Furniture",
+                        "Wooden Furniture",
+                        "Luxury Lighting",
                         "Mattress",
-                        "Office furniture",
-                        "Swimming pools",
-                        "Switched and sockets",
+                        "Office Furniture",
+                        "Swimming Pools",
+                        "Switches and Sockets",
                         "Wallpaper",
-                        "Wooden doors",
-                        "Upvc doors and windows",
-                        "Aluminum doors and windows",
-                        "Curtain wall systems",
-                        "ACP panels",
-                        "Shading and louvers",
-                        "Railing and balustrade",
-                        "False ceiling",
-                        "Modular kitchen and wardrobe",
-                        "Hardware and fittings",
+                        "Wooden Doors",
+                        "UPVC Doors and Windows",
+                        "Aluminum Doors and Windows",
+                        "Curtain Wall Systems",
+                        "ACP Panels",
+                        "Shading and Louvers",
+                        "Railing and Balustrade",
+                        "False Ceiling",
+                        "Modular Kitchen and Wardrobe",
+                        "Hardware and Fittings",
                         "Wellness",
                         "Lighting",
                         "Drones",
-                        "Pergolas and gazebos",
+                        "Pergolas and Gazebos",
                       ].includes(s)
                   ) || ""
                 }
@@ -801,38 +825,38 @@ const UserForm = () => {
                     "Tiles",
                     "Quartz",
                     "Terrazzo",
-                    "Wooden flooring",
+                    "Wooden Flooring",
                     "Laminate",
-                    "Rugs and carpet",
+                    "Rugs and Carpet",
                     "Artefacts",
                     "Sculptures",
-                    "Decorative cladding",
-                    "Stone cladding",
+                    "Decorative Cladding",
+                    "Stone Cladding",
                     "Fencing",
-                    "Garden and outdoor furniture",
-                    "Kitchen appliances",
-                    "Luxury furniture",
-                    "Wooden furniture",
-                    "Luxury lighting",
+                    "Garden and Outdoor Furniture",
+                    "Kitchen Appliances",
+                    "Luxury Furniture",
+                    "Wooden Furniture",
+                    "Luxury Lighting",
                     "Mattress",
-                    "Office furniture",
-                    "Swimming pools",
-                    "Switched and sockets",
+                    "Office Furniture",
+                    "Swimming Pools",
+                    "Switches and Sockets",
                     "Wallpaper",
-                    "Wooden doors",
-                    "Upvc doors and windows",
-                    "Aluminum doors and windows",
-                    "Curtain wall systems",
-                    "ACP panels",
-                    "Shading and louvers",
-                    "Railing and balustrade",
-                    "False ceiling",
-                    "Modular kitchen and wardrobe",
-                    "Hardware and fittings",
+                    "Wooden Doors",
+                    "UPVC Doors and Windows",
+                    "Aluminum Doors and Windows",
+                    "Curtain Wall Systems",
+                    "ACP Panels",
+                    "Shading and Louvers",
+                    "Railing and Balustrade",
+                    "False Ceiling",
+                    "Modular Kitchen and Wardrobe",
+                    "Hardware and Fittings",
                     "Wellness",
                     "Lighting",
                     "Drones",
-                    "Pergolas and gazebos",
+                    "Pergolas and Gazebos",
                   ];
 
                   const updatedOthers = formData.prestigePanache.filter((s) =>
@@ -860,17 +884,17 @@ const UserForm = () => {
           <div className="row">
             {[
               "HVAC",
-              "Electrical’s wires",
-              "Smart automation",
-              "Solar energy",
-              "Fire and safety",
-              "Water treatment",
+              "Electrical’s Wires",
+              "Smart Automation",
+              "Solar Energy",
+              "Fire and Safety",
+              "Water Treatment",
               "Landscape",
-              "Acostic solutions",
+              "Acostic Solutions",
               "Insulation",
-              "Rain Water harvesting",
-              "Waste management",
-              "3 D print",
+              "Rain Water Harvesting",
+              "Waste Management",
+              "3 D Print",
               "Construction",
             ].map((zone) => (
               // <div key={zone} className="form-check">
@@ -912,17 +936,17 @@ const UserForm = () => {
                     (s) =>
                       ![
                         "HVAC",
-                        "Electrical’s wires",
-                        "Smart automation",
-                        "Solar energy",
-                        "Fire and safety",
-                        "Water treatment",
+                        "Electrical’s Wires",
+                        "Smart Automation",
+                        "Solar Energy",
+                        "Fire and Safety",
+                        "Water Treatment",
                         "Landscape",
-                        "Acostic solutions",
+                        "Acostic Solutions",
                         "Insulation",
-                        "Rain Water harvesting",
-                        "Waste management",
-                        "3 D print",
+                        "Rain Water Harvesting",
+                        "Waste Management",
+                        "3 D Print",
                         "Construction",
                       ].includes(s)
                   ) || ""
@@ -930,17 +954,17 @@ const UserForm = () => {
                 onChange={(e) => {
                   const predefined = [
                     "HVAC",
-                    "Electrical’s wires",
-                    "Smart automation",
-                    "Solar energy",
-                    "Fire and safety",
-                    "Water treatment",
+                    "Electrical’s Wires",
+                    "Smart Automation",
+                    "Solar Energy",
+                    "Fire and Safety",
+                    "Water Treatment",
                     "Landscape",
-                    "Acostic solutions",
+                    "Acostic Solutions",
                     "Insulation",
-                    "Rain Water harvesting",
-                    "Waste management",
-                    "3 D print",
+                    "Rain Water Harvesting",
+                    "Waste Management",
+                    "3 D Print",
                     "Construction",
                   ];
 
