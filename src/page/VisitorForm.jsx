@@ -231,7 +231,7 @@ const UserForm = () => {
       <h2 className="text-center text-uppercase fw-bold mb-4 form-heading-color">(DAY 1)</h2>
 
       <h5 className="text-center fw-bold form-heading-color">
-        Date: September, 2025 | Venue: Hyderabad
+         Date: January 9<sup>th</sup>-10<sup>th</sup>,2026 | Venue: GRC Convention Centre, Hyderabad
       </h5>
 
       <h6 className="imp-inst-heading">Important Instructions Before You Begin :</h6>
