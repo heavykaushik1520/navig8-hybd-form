@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const UserForm = () => {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     visitorProfile: "",
     visitorProfileOther: "",
@@ -33,6 +34,7 @@ const UserForm = () => {
   });
 
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -130,6 +132,7 @@ const UserForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     console.log("Form Data Submitted:", formData);
     // --- Validation ---
@@ -166,13 +169,10 @@ const UserForm = () => {
     // https://artiststation.co.in/navig8-hydb-api/api/form/submit
     //http://localhost:5000/api/form/submit
     try {
-      const res = await fetch(
-        "https://artiststation.co.in/navig8-hydb-api/api/form/submit",
-        {
-          method: "POST",
-          body: data,
-        }
-      );
+      const res = await fetch("https://artiststation.co.in/navig8-hydb-api/api/form/submit", {
+        method: "POST",
+        body: data,
+      });
 
       const result = await res.json();
 
@@ -214,6 +214,8 @@ const UserForm = () => {
     } catch (err) {
       console.error(err);
       alert("Error submitting form");
+    } finally {
+      setLoading(false); // Stop loading, regardless of success or failure
     }
   };
 
@@ -228,25 +230,40 @@ const UserForm = () => {
       <h2 className="text-center text-uppercase fw-bold mb-1 form-heading-color">
         Navig8 Vision Directory Details
       </h2>
-      <h2 className="text-center text-uppercase fw-bold mb-4 form-heading-color">(DAY 1)</h2>
+      <h2 className="text-center text-uppercase fw-bold mb-4 form-heading-color">
+        (DAY 1)
+      </h2>
 
       <h5 className="text-center fw-bold form-heading-color">
-         Date: January 9<sup>th</sup>-10<sup>th</sup>,2026 | Venue: GRC Convention Centre, Hyderabad
+        Day 1 Registration Form (January 9<sup>th</sup>)<br></br>
+        Event Dates: January 9<sup>th</sup>-10<sup>th</sup>,2026
+        <br></br>( Friday & Saturday )<br></br>
+        Venue: JRC Convention Centre,
+        <br></br>
+        Hyderabad
+        <br></br>
+        Contact Us: +91 9353657179
       </h5>
 
-      <h6 className="imp-inst-heading">Important Instructions Before You Begin :</h6>
+      <h6 className="imp-inst-heading">
+        Important Instructions Before You Begin :
+      </h6>
       <ul>
         <li>Please enter the details of the person attending the show.</li>
-        <li><strong>Preferred attendee</strong> - Principal Architect/ Principal Interior Designer/ Product Specifier or Specifier</li>
+        <li>
+          <strong>Preferred attendee</strong> - Principal Architect/ Principal
+          Interior Designer/ Product Specifier or Specifier
+        </li>
         <li>
           The directory will be shared with participating brands prior to the
           show, allowing them to better understand your work and reach out
           meaningfully.
         </li>
         <li>
-          Directory will be shared with key government bodies including Urban
-          Development, Airports, Railways, Metro and other relevant
-          infrastructure authorities.
+          The directory is intended to benefit not just stakeholders but also
+          visitors and will be circulated with Metro, Railways, Airports, PWD,
+          CPWD and Urban Development authorities ensuring wide reach and
+          meaningful impact.
         </li>
       </ul>
 
@@ -310,7 +327,9 @@ const UserForm = () => {
         </div>
 
         <div className="col-md-6">
-          <label className="form-label fw-bold">Contact Person<span className="text-danger">*</span> :</label>
+          <label className="form-label fw-bold">
+            Contact Person<span className="text-danger">*</span> :
+          </label>
           <input
             type="text"
             className="form-control"
@@ -323,7 +342,9 @@ const UserForm = () => {
         </div>
 
         <div className="col-md-6">
-          <label className="form-label fw-bold">Designation<span className="text-danger">*</span> :</label>
+          <label className="form-label fw-bold">
+            Designation<span className="text-danger">*</span> :
+          </label>
           <input
             type="text"
             className="form-control"
@@ -336,7 +357,9 @@ const UserForm = () => {
         </div>
 
         <div className="col-md-6">
-          <label className="form-label fw-bold">Mobile Number<span className="text-danger">*</span> :</label>
+          <label className="form-label fw-bold">
+            Mobile Number<span className="text-danger">*</span> :
+          </label>
           <input
             type="text"
             className="form-control"
@@ -361,7 +384,9 @@ const UserForm = () => {
         </div>
 
         <div className="col-md-6">
-          <label className="form-label fw-bold">Email<span className="text-danger">*</span> :</label>
+          <label className="form-label fw-bold">
+            Email<span className="text-danger">*</span> :
+          </label>
           <input
             type="text"
             className="form-control"
@@ -579,30 +604,34 @@ const UserForm = () => {
           ))}
         </div>
 
-        <h4 className="fw-bold form-heading-color"> PRODUCT CATEGORIES OF INTEREST </h4>
+        <h4 className="fw-bold form-heading-color">
+          {" "}
+          PRODUCT CATEGORIES OF INTEREST{" "}
+        </h4>
+
+        {/* STRUCTURAL SPECTRUM STARTS HERE */}
         <div className="col-12 ms-3">
           <label className="form-label fw-bold">
             The Structural Spectrum :
           </label>
-          {/* <div className="d-flex flex-wrap gap-3"> */}
+
           <div className="row">
             {[
-              "Cement",
-              "Ready Mix Concrete",
               "Bricks and Blocks",
-              "Structural Steel",
-              "TMT Bars",
-              "Roofing Solutions",
-              "Waterproofing Chemicals and Adhesives",
-              "Paints and Coatings",
+              "Cement",
               "Elevator",
               "Facade",
               "Formwork",
-              "PEB Structure",
               "Glass Facade",
+              "Paints and Coatings",
+              "PEB Structure",
               "Plumbing and Pipes",
+              "Ready Mix Concrete",
+              "Roofing Solutions",
+              "Structural Steel",
+              "TMT Bars",
+              "Waterproofing Chemicals and Adhesives",
             ].map((spectrum) => (
-              // <div key={spectrum} className="form-check">
               <div key={spectrum} className="col-md-4 col-sm-6 form-check mb-2">
                 <input
                   className="form-check-input"
@@ -622,12 +651,6 @@ const UserForm = () => {
               </div>
             ))}
 
-            {/* ✅ Other Option */}
-            {/* <div className="form-check">
-              <label
-                className="form-check-label fw-bold"
-                htmlFor="spectrum-other"
-              > */}
             <div className="col-md-4 col-sm-6 d-flex align-items-center mb-2">
               <label
                 className="form-check-label fw-bold me-2"
@@ -637,45 +660,44 @@ const UserForm = () => {
               </label>
               <input
                 type="text"
-                // className="form-control d-inline w-auto"
                 className="form-control"
                 value={
                   formData.structuralSpectrum.find(
                     (s) =>
                       ![
-                        "Cement",
-                        "Ready Mix Concrete",
                         "Bricks and Blocks",
-                        "Structural Steel",
-                        "TMT Bars",
-                        "Roofing Solutions",
-                        "Waterproofing Chemicals and Adhesives",
-                        "Paints and Coatings",
+                        "Cement",
                         "Elevator",
                         "Facade",
                         "Formwork",
-                        "PEB Structure",
                         "Glass Facade",
+                        "Paints and Coatings",
+                        "PEB Structure",
                         "Plumbing and Pipes",
+                        "Ready Mix Concrete",
+                        "Roofing Solutions",
+                        "Structural Steel",
+                        "TMT Bars",
+                        "Waterproofing Chemicals and Adhesives",
                       ].includes(s)
                   ) || ""
                 }
                 onChange={(e) => {
                   const predefined = [
-                    "Cement",
-                    "Ready Mix Concrete",
                     "Bricks and Blocks",
-                    "Structural Steel",
-                    "TMT Bars",
-                    "Roofing Solutions",
-                    "Waterproofing Chemicals and Adhesives",
-                    "Paints and Coatings",
+                    "Cement",
                     "Elevator",
                     "Facade",
                     "Formwork",
-                    "PEB Structure",
                     "Glass Facade",
+                    "Paints and Coatings",
+                    "PEB Structure",
                     "Plumbing and Pipes",
+                    "Ready Mix Concrete",
+                    "Roofing Solutions",
+                    "Structural Steel",
+                    "TMT Bars",
+                    "Waterproofing Chemicals and Adhesives",
                   ];
 
                   const updatedOthers = formData.structuralSpectrum.filter(
@@ -697,49 +719,51 @@ const UserForm = () => {
           </div>
         </div>
 
+        {/* PRESTIGE & PANACHE STARTS HERE */}
+
         <div className="col-12 ms-3">
           <label className="form-label fw-bold">Prestige & Panache :</label>
-          {/* <div className="d-flex flex-wrap gap-3"> */}
+
           <div className="row">
             {[
-              "Marble",
-              "Tiles",
-              "Quartz",
-              "Terrazzo",
-              "Wooden Flooring",
-              "Laminate",
-              "Rugs and Carpet",
+              "ACP Panels",
+              "Aluminum Doors and Windows",
               "Artefacts",
-              "Sculptures",
+              "Curtain Wall Systems",
               "Decorative Cladding",
-              "Stone Cladding",
+              "Drones",
+              "False Ceiling",
               "Fencing",
               "Garden and Outdoor Furniture",
+              "Hardware and Fittings",
               "Kitchen Appliances",
+              "Laminate",
+              "Lighting",
               "Luxury Furniture",
-              "Wooden Furniture",
               "Luxury Lighting",
+              "Marble",
               "Mattress",
+              "Modular Kitchen and Wardrobe",
+              "Mosaic",
               "Office Furniture",
+              "Pergolas and Gazebos",
+              "Quartz",
+              "Railing and Balustrade",
+              "Rugs and Carpet",
+              "Sculptures",
+              "Shading and Louvers",
+              "Stone Cladding",
               "Swimming Pools",
               "Switches and Sockets",
-              "Wallpaper",
-              "Wooden Doors",
+              "Terrazzo",
+              "Tiles",
               "UPVC Doors and Windows",
-              "Aluminum Doors and Windows",
-              "Curtain Wall Systems",
-              "ACP Panels",
-              "Shading and Louvers",
-              "Railing and Balustrade",
-              "False Ceiling",
-              "Modular Kitchen and Wardrobe",
-              "Hardware and Fittings",
+              "Wallpaper",
               "Wellness",
-              "Lighting",
-              "Drones",
-              "Pergolas and Gazebos",
+              "Wooden Doors",
+              "Wooden Flooring",
+              "Wooden Furniture",
             ].map((item) => (
-              // <div key={item} className="form-check">
               <div key={item} className="col-md-4 col-sm-6 form-check mb-2">
                 <input
                   className="form-check-input"
@@ -759,12 +783,6 @@ const UserForm = () => {
               </div>
             ))}
 
-            {/* ✅ Other Option */}
-            {/* <div className="form-check">
-              <label
-                className="form-check-label fw-bold"
-                htmlFor="prestige-other"
-              > */}
             <div className="col-md-4 col-sm-6 d-flex align-items-center mb-2">
               <label
                 className="form-check-label fw-bold me-2"
@@ -774,89 +792,90 @@ const UserForm = () => {
               </label>
               <input
                 type="text"
-                // className="form-control d-inline w-auto"
                 className="form-control"
                 value={
                   formData.prestigePanache.find(
                     (s) =>
                       ![
-                        "Marble",
-                        "Tiles",
-                        "Quartz",
-                        "Terrazzo",
-                        "Wooden Flooring",
-                        "Laminate",
-                        "Rugs and Carpet",
+                        "ACP Panels",
+                        "Aluminum Doors and Windows",
                         "Artefacts",
-                        "Sculptures",
+                        "Curtain Wall Systems",
                         "Decorative Cladding",
-                        "Stone Cladding",
+                        "Drones",
+                        "False Ceiling",
                         "Fencing",
                         "Garden and Outdoor Furniture",
+                        "Hardware and Fittings",
                         "Kitchen Appliances",
+                        "Laminate",
+                        "Lighting",
                         "Luxury Furniture",
-                        "Wooden Furniture",
                         "Luxury Lighting",
+                        "Marble",
                         "Mattress",
+                        "Modular Kitchen and Wardrobe",
+                        "Mosaic",
                         "Office Furniture",
+                        "Pergolas and Gazebos",
+                        "Quartz",
+                        "Railing and Balustrade",
+                        "Rugs and Carpet",
+                        "Sculptures",
+                        "Shading and Louvers",
+                        "Stone Cladding",
                         "Swimming Pools",
                         "Switches and Sockets",
-                        "Wallpaper",
-                        "Wooden Doors",
+                        "Terrazzo",
+                        "Tiles",
                         "UPVC Doors and Windows",
-                        "Aluminum Doors and Windows",
-                        "Curtain Wall Systems",
-                        "ACP Panels",
-                        "Shading and Louvers",
-                        "Railing and Balustrade",
-                        "False Ceiling",
-                        "Modular Kitchen and Wardrobe",
-                        "Hardware and Fittings",
+                        "Wallpaper",
                         "Wellness",
-                        "Lighting",
-                        "Drones",
-                        "Pergolas and Gazebos",
+                        "Wooden Doors",
+                        "Wooden Flooring",
+                        "Wooden Furniture",
                       ].includes(s)
                   ) || ""
                 }
                 onChange={(e) => {
                   const predefined = [
-                    "Marble",
-                    "Tiles",
-                    "Quartz",
-                    "Terrazzo",
-                    "Wooden Flooring",
-                    "Laminate",
-                    "Rugs and Carpet",
+                    "ACP Panels",
+                    "Aluminum Doors and Windows",
                     "Artefacts",
-                    "Sculptures",
+                    "Curtain Wall Systems",
                     "Decorative Cladding",
-                    "Stone Cladding",
+                    "Drones",
+                    "False Ceiling",
                     "Fencing",
                     "Garden and Outdoor Furniture",
+                    "Hardware and Fittings",
                     "Kitchen Appliances",
+                    "Laminate",
+                    "Lighting",
                     "Luxury Furniture",
-                    "Wooden Furniture",
                     "Luxury Lighting",
+                    "Marble",
                     "Mattress",
+                    "Modular Kitchen and Wardrobe",
+                    "Mosaic",
                     "Office Furniture",
+                    "Pergolas and Gazebos",
+                    "Quartz",
+                    "Railing and Balustrade",
+                    "Rugs and Carpet",
+                    "Sculptures",
+                    "Shading and Louvers",
+                    "Stone Cladding",
                     "Swimming Pools",
                     "Switches and Sockets",
-                    "Wallpaper",
-                    "Wooden Doors",
+                    "Terrazzo",
+                    "Tiles",
                     "UPVC Doors and Windows",
-                    "Aluminum Doors and Windows",
-                    "Curtain Wall Systems",
-                    "ACP Panels",
-                    "Shading and Louvers",
-                    "Railing and Balustrade",
-                    "False Ceiling",
-                    "Modular Kitchen and Wardrobe",
-                    "Hardware and Fittings",
+                    "Wallpaper",
                     "Wellness",
-                    "Lighting",
-                    "Drones",
-                    "Pergolas and Gazebos",
+                    "Wooden Doors",
+                    "Wooden Flooring",
+                    "Wooden Furniture",
                   ];
 
                   const updatedOthers = formData.prestigePanache.filter((s) =>
@@ -878,26 +897,27 @@ const UserForm = () => {
           </div>
         </div>
 
+        {/* INNOVATION SPHERE STARTS HERE */}
+
         <div className="col-12 ms-3">
           <label className="form-label fw-bold">Innovation Sphere :</label>
-          {/* <div className="d-flex flex-wrap gap-3"> */}
+
           <div className="row">
             {[
-              "HVAC",
+              "3D Print",
+              "Acostic Solutions",
+              "Construction",
               "Electrical’s Wires",
+              "Fire and Safety",
+              "HVAC",
+              "Insulation",
+              "Landscape",
+              "Rain Water Harvesting",
               "Smart Automation",
               "Solar Energy",
-              "Fire and Safety",
-              "Water Treatment",
-              "Landscape",
-              "Acostic Solutions",
-              "Insulation",
-              "Rain Water Harvesting",
               "Waste Management",
-              "3 D Print",
-              "Construction",
+              "Water Treatment",
             ].map((zone) => (
-              // <div key={zone} className="form-check">
               <div key={zone} className="col-md-4 col-sm-6 form-check mb-2">
                 <input
                   className="form-check-input"
@@ -917,9 +937,6 @@ const UserForm = () => {
               </div>
             ))}
 
-            {/* ✅ Other Option */}
-            {/* <div className="form-check">
-              <label className="form-check-label fw-bold" htmlFor="zone-other"> */}
             <div className="col-md-4 col-sm-6 d-flex align-items-center mb-2">
               <label
                 className="form-check-label fw-bold me-2"
@@ -929,43 +946,42 @@ const UserForm = () => {
               </label>
               <input
                 type="text"
-                // className="form-control d-inline w-auto"
                 className="form-control"
                 value={
                   formData.greenZone.find(
                     (s) =>
                       ![
-                        "HVAC",
+                        "3D Print",
+                        "Acostic Solutions",
+                        "Construction",
                         "Electrical’s Wires",
+                        "Fire and Safety",
+                        "HVAC",
+                        "Insulation",
+                        "Landscape",
+                        "Rain Water Harvesting",
                         "Smart Automation",
                         "Solar Energy",
-                        "Fire and Safety",
-                        "Water Treatment",
-                        "Landscape",
-                        "Acostic Solutions",
-                        "Insulation",
-                        "Rain Water Harvesting",
                         "Waste Management",
-                        "3 D Print",
-                        "Construction",
+                        "Water Treatment",
                       ].includes(s)
                   ) || ""
                 }
                 onChange={(e) => {
                   const predefined = [
-                    "HVAC",
+                    "3D Print",
+                    "Acostic Solutions",
+                    "Construction",
                     "Electrical’s Wires",
+                    "Fire and Safety",
+                    "HVAC",
+                    "Insulation",
+                    "Landscape",
+                    "Rain Water Harvesting",
                     "Smart Automation",
                     "Solar Energy",
-                    "Fire and Safety",
-                    "Water Treatment",
-                    "Landscape",
-                    "Acostic Solutions",
-                    "Insulation",
-                    "Rain Water Harvesting",
                     "Waste Management",
-                    "3 D Print",
-                    "Construction",
+                    "Water Treatment",
                   ];
 
                   const updatedOthers = formData.greenZone.filter((s) =>
@@ -1027,8 +1043,12 @@ const UserForm = () => {
         </div>
 
         <div className="col-12 text-center">
-          <button type="submit" className="btn btn-primary px-4 py-2">
-            Submit
+          <button
+            type="submit"
+            className="btn btn-primary px-4 py-2"
+            disabled={loading}
+          >
+            {loading ? "Submitting..." : "Submit"}
           </button>
         </div>
       </form>
